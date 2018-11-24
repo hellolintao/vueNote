@@ -15,7 +15,7 @@
     * [第五节 组件高级用法](chapter7/section5.md)
     * [第六节 其他](chapter7/section6.md)
 * [第八章 自定义指令](chapter8/section.md)
-* [第九章 render函数](chapter9/section.md)
+* 第九章 render函数
     * [第一节 基础](chapter9/section1.md)
     * [第二节 createElement用法](chapter9/section2.md)
 
