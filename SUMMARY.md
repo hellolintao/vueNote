@@ -18,4 +18,6 @@
 * 第九章 render函数
     * [第一节 基础](chapter9/section1.md)
     * [第二节 createElement用法](chapter9/section2.md)
+    * [第三节 函数化组件](chapter9/函数化组件.md)
+    * [第三节 JSX](chapter9/JSX.md)
 
