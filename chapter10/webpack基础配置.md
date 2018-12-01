@@ -6,7 +6,7 @@
 
 2 使用npm初始化目录 `npm init`
 
-3 安装webpack和webpack-sever `npm install --save-dev webpack webpack-server`
+3 安装webpack和webpack-sever `npm install --save-dev webpack webpack-dev-server`
 
 ## #就是一个js文件而已
 
@@ -17,7 +17,7 @@ webpack就是一个.js配置文件而已，一个项目的架构好坏！都在�
 ```json
 {
     "scripts": {
-        "dev":"webpack-dev-serve --open --config webpack.config.js"
+        "dev":"webpack-dev-server --open --config webpack.config.js"
     }
 }
 ```
@@ -224,7 +224,7 @@ var config = {
         rules:[
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin({ // 这条规则要使用这个插件，并传递一个参数
+                use: ExtractTextPlugin.extract({ // 这条规则要使用这个插件，并传递一个参数
                     use:"css-loader", // 参数说明先使用css-loader编译这个文件
                     fallback:"style-loader" // 然后调用style-loader
                 })
