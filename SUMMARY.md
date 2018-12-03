@@ -25,4 +25,8 @@
     * [第二节 webpack基础配置](chapter10/webpack基础配置.md)
     * [第三节 单文件组件与vue-loader](chapter10/单文件组件与vue-loader.md)
     * [第四节 用于生产环境](chapter10/用于生产环境.md)
+* 第十一章 插件
+    * [第一节 前端路由与vue-router](chapter11/vue-router.md)
+    * [第二节 状态管理与Vuex](chapter11/vuex.md)
+    * [第三节 总线插件vue-bus](chapter11/vue-bus.md)
 

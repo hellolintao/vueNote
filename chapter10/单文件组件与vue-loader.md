@@ -218,9 +218,21 @@ new App({
 	</div>
 </template>
 <script>
-	import vTitle from "./title.vue"
+	import vTitle from "./title.vue";
+	import vButton from "./button.vue";
+
+	export default {
+		componentsL:{
+			vTitle,
+			vButton
+		},
+		methods: {
+			handelClick: (e) => {
+				console.log(e);
+			}
+		}
+	}
 </script>
-<style scoped>
-	
-</style>
 ```
+
+在app.vue中我们看到，要想使用哪个组件，要先将这个组件文件import进来。
