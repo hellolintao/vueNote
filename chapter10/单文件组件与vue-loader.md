@@ -114,3 +114,113 @@ var config = {
 ```
 
 配置好这些文件后！我们就可以使用vue单文件了！
+
+### #实战
+
+vue单文件中声明的组件，如何使用呢？一个简单的例子：
+
+1， 在入口中声明文件
+
+因为在webpack配置文件中，我们说明了入口文件是main.js， 那么在main.js文件中，首先导入根组件：
+
+```javascript
+import Vue from "vue";
+import App from "./app.vue";
+
+new App({
+	el:"#app",
+	render: h=> {
+		return h(App)
+	}
+});
+```
+
+2， 你的组件
+
+首先我们声明一个title组件
+
+```html
+<!-- title.vue文件 -->
+<template>
+	<h1>
+		<a :href="'#' + title">{{ title }}</a>
+	</h1>
+</template>
+<script>
+	export default {
+		props: {
+			title: {
+				type: String
+			}
+		}
+	}
+</script>
+<style scoped>
+	h1 a {
+		color: #ffffff;
+		font-size: 24px;
+	}
+</style>
+```
+
+然后声明一个button组件
+
+```html
+<!-- button.vue文件 -->
+<template>
+	<button @click="handleClick" :style="styles">
+		<slot><slot>
+	</button>
+</template>
+<script>
+	export default {
+		props: {
+			color: {
+				type: String,
+				default: "#00FF66"
+			}
+		},
+		computed: {
+			styles: () => {
+				return {
+					background: this.color
+				}
+			}
+		},
+		methods: {
+			handleClick: (e) => {
+				this.$emilt("click", e);
+			}
+		}
+	}
+</script>
+<style scoped>
+	button {
+		border: 0;
+		outline: none;
+		color: #ffffff;
+		padding: 2px 4px;
+	}
+	button:active,button:hover {
+		color: #00FF00;
+	}
+</style>
+```
+
+然后开始书写我们的app.vue文件！
+
+```html
+<!-- app.vue -->
+<template>
+	<div>
+		<v-title title="测试标题"></title>
+		<v-button color="#000000" @click="handelClick">按钮点击</v-button>
+	</div>
+</template>
+<script>
+	import vTitle from "./title.vue"
+</script>
+<style scoped>
+	
+</style>
+```
