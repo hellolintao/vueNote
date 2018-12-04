@@ -1,3 +1,4 @@
+
 # 第一节 前端路由与vue-router
 
 ## #什么是前端路由
@@ -185,7 +186,89 @@ new Vue({
 
 - tag
     指定该组件渲染成为什么标签，模式a标签，例子：`<router-link to="/about" tag="li"></router-link>`
+
 - replace
+	使用replace不会留下History记录，所以导航后不能用返回键返回到上一个页面，例如：`<router-link to="/about" replace></router-link>`
+
 - active-class
+	当路由跳转成功的时候，会给绑定路由点击的元素一个class，默认是`router-lin-active`，当然，也可以自定义：`<router-link to="/about" tag="li" active-class="myclass"></router-link>`，但是一般情况下，使用默认的class就好了
+
+### #router实例形式
+
+有的时候，需要通过js来完成跳转页面，类似于`window.location.href`，这时可以使用router实例的形式：
+
+```html
+// about.vue
+<template>
+	<div>
+		<h1>介绍页</h1>
+		<button @click="handleClick">跳转到user</button>
+	</div>
+</template>
+<script>
+	export default {
+		methods: {
+			handleClick: () => {
+				this.$router.push("/user/123");
+			}
+		}
+	}
+</script>
+```
+
+`$router`还有2个常用方法
+
+- replace 类似于组件中的relpace，效果也一样，`this.$router.replace("/user/123")`
+
+- go 类似于`window.history.go()`，可以指定前进或者后退的步数，例如前进一页：`this.$router.go(1)`，后退两页：`this.$router.go(-2)`
+
 ## #高级用法
 
+vue-router提供了两个钩子函数，`beforeEach`和`afterEach`，分别会在路由即将改变之前和改变之后触发，我们可以利用这两个钩子函数完成一系列的操作。
+
+当路由改变的时候，页面的标题也要改变，但是SPA只有一个title标签，可以在每个路由组件中去改变title标签中的内容，但是效率低下，每个文件都要写这个代码，所以维护起来也麻烦，这个时候可以借助`befroeEach`来完成这个操作：
+
+```javascript
+// main.js
+const router = new VueRouter(RouterConfig);
+router.beforeEach((to, from, next) => {
+	window.document.title = to.meta.title;
+	next();	
+});
+```
+
+上面的钩子函数有三个参数：
+
+- to: 即将进入的目标的路由对象
+
+- from: 当前导航即将要离开的路由对象
+
+- next: 调用该方法后，才能进入下一个钩子
+
+还有一种业务场景就是，一个页面很长，我在浏览这个页面中间的部分的时候，跳转到了另外一个页面，这个时候，另外一个页面也出于中间的部分，用户体验不好，这个时候，可以通过`afterEach`钩子来满足这个需求：跳转到新页面之后，将页面滚动到最上面
+
+```javascript
+// main.js
+router.afterEach((to, from, next) => {
+	window.scrollTo(0, 0);
+})
+```
+
+参数和上一个钩子函数一样，不做解释。
+
+另外，next()函数可以传参的，传递某个路由地址可以跳转到相应的页面，传递false，可以取消导航，利用这一点，我们可以执行某些操作，例如验证登陆的操作：
+
+```javascript
+// main.js
+const router = new VueRouter(RouterConfig);
+router.beforeEach((to, from, next) => {
+	window.document.title = to.meta.title;
+	if (window.localStorage.getItem('token')) {
+		next();
+	} else {
+		next("/login");
+	}
+});
+```
+
+上述代码是，如果用户未登录，那么跳转到登陆页
