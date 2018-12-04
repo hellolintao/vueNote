@@ -222,7 +222,7 @@ new App({
 	import vButton from "./button.vue";
 
 	export default {
-		componentsL:{
+		components:{
 			vTitle,
 			vButton
 		},
