@@ -22,6 +22,59 @@ import App from "./app.vue";
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+
+// 忽略路由配置
+
+const store = new Vuex.store({
+    // vuex的配置
+});
+
+new Vue({
+    el:"#app",
+    router: router,
+    store:store, // 这个就是vuex！！
+    render: (h) => {
+        return h(App);
+    }
+});
+```
+
+`store`中的数据是通用的，任何组件使用store都会引起数据和视图的更新。
+
+Vuex的配置在`new Vuex.store({})`中书写，其中，配置文件提供了四个选项：
+
+- state: 数据
+- mutations: 事件触发器
+- getter：数据获取
+- modules: store的模块，可以引入其他文件，可用于将配置拆分
+
+`state`设置了值之后，任何组件都可以通过`$store.state.***`来获取设置的值，例如在`index.vue`内：
+
+```javascript
+// main.js
+// 先补充一下vuex的配置
+const store = new Vuex.store({
+    state: {
+        count: 0
+    }
+});
+```
+
+```html
+<template>
+    <h1>首页</h1>
+    {{ count }}
+</template>
+<script>
+    export default {
+        computed: {
+            count: ()=> {
+                // 访问vuex中的count
+                return this.$store.state.count;
+            }
+        }
+    }
+</script>
 ```
 ## #高级用法
 
