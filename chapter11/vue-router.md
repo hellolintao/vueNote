@@ -85,7 +85,7 @@ const Routers = [
     }, {
         path: "/user/:id", // 冒号可以传递一些参数
         component: (resolve) => {
-            return (["./views/user.vue"], resolve)
+            return require(["./views/user.vue"], resolve)
         }
     }, {
         path: "*", // 如果访问的路径不存在，那么跳转到index！如果访问127.0.0.1/user没有指定参数的话，也算是不存在的路径！
