@@ -45,6 +45,7 @@ Vuex的配置在`new Vuex.store({})`中书写，其中，配置文件提供了�
 
 - state: 数据
 - mutations: 事件触发器
+- actions: 类似于事件触发器，但是支持异步操作
 - getter：数据获取
 - modules: store的模块，可以引入其他文件，可用于将配置拆分
 
@@ -138,3 +139,64 @@ const store = new Vuex.store({
 
 ## #高级用法
 
+### #getter
+
+在之前的vuex配置中，我们声明了`count`，在其他组件中，我们可以使用`this.$store.state.count`来获取这个值，将会获取某个数值，如果这个值代表的是**商品总数**，我们希望返回的是**一共有商品count件**，可以通过`getter`来实现这个需求，这样在所有用到这个state的组件中，都会得到**一共有商品count件**，避免每个组件单独去处理这个数据，实现方式如下：
+
+```javascript
+// main.js
+const store = new Vuex.store({
+    state: {
+        count: 0
+    },
+    getters: {
+        getCount: (state) => {
+            return `一共有商品${state.count}件`;
+        }
+    }
+});
+```
+
+在其他组件中使用getter
+
+```html
+<template>
+    <div>
+        <div> {{count}} </div>
+    </div>
+</template>
+<script>
+    export default {
+        computed: {
+            count: () => {
+                return this.$store.getters.getCount;
+            }
+        }
+    }
+</script>
+```
+
+这种形式类似于计算属性，只不过计算过程放在了store中，另外，getter可以依赖其他的getter，可以把getter作为第二个参数，例如，我们假设每个商品10块钱，实现一个getter来获取商品的总价格：
+
+```javascript
+// main.js
+const store = new Vuex.store({
+    state: {
+        count:0
+    },
+    getters: {
+        getCount: (state) => {
+            return `一共有商品${state.count}件`;
+        },
+        getPrice: (state, getters) => {
+            return `${getters.getCount}，一共${state.count*10}元`;
+        }
+    }
+});
+```
+
+在其他组件中使用：`this.$store.getters.getPrice`，将返回`一共有商品n件，一共w元`。
+
+### #actions
+
+已经了解过`mutation`，可以用来触发事件，现在store中声明响应的`mutation`，然后在其他组件中，通过`this.$store.commit('mutationName', value)`，来触发响应的`mutation`，并且传递参数`value`。
