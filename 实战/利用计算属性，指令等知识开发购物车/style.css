@@ -1,0 +1,22 @@
+[v-cloak] {
+	opacity: 0;
+}
+table {
+	border: 1px solid #cccccc;
+	border-collapse: collapse;
+	border-spacing: 0;
+	empty-cells: show;
+}
+
+th, td {
+	padding: 8px 16px;
+	border: 1px solid #cccccc;
+	text-align: left;
+}
+
+th {
+	background: #f7f7f7;
+	color: #333333;
+	font-weight: 600;
+	white-space: nowrap;
+}
